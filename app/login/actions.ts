@@ -16,6 +16,7 @@ export async function login(
 ): Promise<FormState> {
   const username = formData.get('username')?.toString()
   const password = formData.get('password')?.toString()
+  const autoLogin = !!formData.get('auto-login')
 
   if (!username || !password) {
     return { message: '아이디와 비밀번호를 입력해주세요.' }
@@ -35,7 +36,7 @@ export async function login(
   const token = await sign(username)
   cookies().set('access_token', token, {
     httpOnly: true,
-    maxAge: 60 * 60 * 24 * 7 // 7 days
+    maxAge: autoLogin ? 60 * 60 * 24 * 7 : undefined // 7 days
   })
 
   redirect('/')
