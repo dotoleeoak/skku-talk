@@ -1,7 +1,10 @@
 'use server'
 
 import prisma from '@/libs/db'
+import { sign } from '@/libs/jwt'
 import { verify } from 'argon2'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 export interface FormState {
   message: string
@@ -28,7 +31,12 @@ export async function login(
     return { message: '아이디 또는 비밀번호가 올바르지 않습니다.' }
   }
 
-  return { message: '' }
+  // Issue JWT
+  const token = await sign(username)
+  cookies().set('access_token', token, {
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 7 // 7 days
+  })
 
-  // TODO: issue token
+  redirect('/')
 }
