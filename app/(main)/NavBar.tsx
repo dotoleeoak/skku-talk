@@ -9,7 +9,7 @@ export default function NavBar() {
   const pathname = usePathname()
 
   return (
-    <nav className="flex-none rounded-b-xl border-t bg-slate-100 px-20 py-2">
+    <nav className="flex-none rounded-b-xl border-t bg-slate-50 px-20 py-2">
       <ul className="flex items-center justify-between">
         <li>
           <a
@@ -17,7 +17,7 @@ export default function NavBar() {
             className={clsx(
               pathname == '/'
                 ? 'text-slate-800'
-                : 'text-slate-400 hover:text-slate-400/80 focus:text-slate-400/60',
+                : 'text-slate-400 hover:text-slate-400/80 active:text-slate-400/60',
               'flex flex-col items-center'
             )}
           >
@@ -31,7 +31,7 @@ export default function NavBar() {
             className={clsx(
               pathname == '/chat'
                 ? 'text-slate-800'
-                : 'text-slate-400 hover:text-slate-400/80 focus:text-slate-400/60',
+                : 'text-slate-400 hover:text-slate-400/80 active:text-slate-400/60',
               'flex flex-col items-center'
             )}
           >
