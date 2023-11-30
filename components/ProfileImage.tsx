@@ -23,7 +23,7 @@ export default function ProfileImage({ className, src }: Props) {
           width="100%"
           height="100%"
           preserveAspectRatio="xMidYMid slice"
-          clip-path="url(#clipSquircle)"
+          clipPath="url(#clipSquircle)"
           xlinkHref={src}
         />
       </svg>
