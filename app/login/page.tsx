@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
-import LoginForm from './login-form'
+import LoginForm from './LoginForm'
 import { verify } from '@/libs/jwt'
 import { redirect } from 'next/navigation'
 
