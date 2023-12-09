@@ -7,10 +7,15 @@ interface Props {
   id: number
   name: string
   lastMessage: string
-  lastTime: Date | null
+  lastTime?: string
 }
 
-export default function ChatListItem({ id, name, lastMessage }: Props) {
+export default function ChatListItem({
+  id,
+  name,
+  lastMessage,
+  lastTime
+}: Props) {
   const router = useRouter()
 
   const openChatRoom = () => {
@@ -30,9 +35,9 @@ export default function ChatListItem({ id, name, lastMessage }: Props) {
         <p className="text-lg font-medium">{name}</p>
         <p className="line-clamp-2 text-sm text-gray-500">{lastMessage}</p>
       </section>
-      {lastMessage && (
+      {lastTime && (
         <div className="absolute right-4 top-4 text-xs text-gray-500">
-          {lastMessage}
+          {lastTime}
         </div>
       )}
     </li>

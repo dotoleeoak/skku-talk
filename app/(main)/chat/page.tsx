@@ -39,10 +39,13 @@ export default async function Chat() {
             id={id}
             name={name}
             lastMessage={lastMessage}
-            lastTime={lastTime}
+            lastTime={lastTime?.toLocaleTimeString('ko-KR', {
+              hour: 'numeric',
+              minute: 'numeric',
+              hour12: true
+            })}
           />
         ))}
-        {/* <ChatListItem id={1} /> */}
       </ul>
     </>
   )

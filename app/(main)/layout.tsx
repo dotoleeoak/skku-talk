@@ -6,7 +6,7 @@ export default function MainLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="mx-auto my-2 flex h-[calc(100%-1rem)] w-[24rem] flex-col rounded-xl border">
+    <div className="mx-auto flex h-full w-[28rem] flex-col rounded-xl border">
       <main className="flex-1 overflow-y-scroll">{children}</main>
       <NavBar />
     </div>

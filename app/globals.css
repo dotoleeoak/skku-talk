@@ -2,9 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
+html {
+  height: 100%;
+}
 body {
   height: 100%;
+  padding: 1rem;
 }
 
 input[type='checkbox']:checked {
