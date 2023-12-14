@@ -6,7 +6,7 @@ interface Props {
   className?: string
   height: number
   width: number
-  src: string
+  src?: string
 }
 
 export default function ProfileImage({ src, className, height, width }: Props) {
@@ -23,7 +23,7 @@ export default function ProfileImage({ src, className, height, width }: Props) {
         </defs>
       </svg>
       <Image
-        src={src}
+        src={src || '/profile.jpeg'}
         alt="Profile Image"
         height={height}
         width={width}

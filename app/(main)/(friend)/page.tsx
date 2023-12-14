@@ -20,11 +20,7 @@ export default async function Friends() {
     <>
       <FriendHeader />
       <section className="mb-6 flex items-center gap-4 px-4 py-2 text-gray-800">
-        <ProfileImage
-          src="https://picsum.photos/id/64/64/64"
-          height={64}
-          width={64}
-        />
+        <ProfileImage height={64} width={64} />
         <div>{name}</div>
       </section>
       <hr className="mx-4" />
