@@ -38,3 +38,9 @@ next-env.d.ts
 # SQLite
 *.sqlite
 *.sqlite-journal
+
+# macOS
+.DS_Store
+
+# build output
+dist
