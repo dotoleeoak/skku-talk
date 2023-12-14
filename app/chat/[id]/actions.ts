@@ -49,7 +49,8 @@ export async function getMessages(chatRoomId: number) {
   })
 
   const messagesWithTime = messages.map(({ user, message, createdAt }) => ({
-    username: user.name,
+    name: user.name,
+    username: user.username,
     message: message,
     time: createdAt.toLocaleString('ko-KR', {
       hour: 'numeric',

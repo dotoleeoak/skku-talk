@@ -9,8 +9,6 @@ export async function createUser(data: Record<string, any>): Promise<void> {
 
   const hashedPassword = await hash(password)
 
-  console.log({ realname, username, hashedPassword })
-
   const userWithSameUsername = await prisma.user.findUnique({
     where: {
       username

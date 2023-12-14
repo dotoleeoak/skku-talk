@@ -1,28 +1,31 @@
 'use client'
 
-import { useRef, type KeyboardEvent, type ChangeEvent } from 'react'
+import { useRef, type KeyboardEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { socket } from '@/libs/socket'
 import MdiImageOutline from '~icons/mdi/image-outline'
 
 interface Props {
-  chatRoomId: number
+  roomId: number
+  username: string
 }
 
 const schema = z.object({
-  chatRoomId: z.number(),
+  username: z.string(),
+  roomId: z.number(),
   message: z.string().trim().min(1)
 })
 
 type ChatForm = z.infer<typeof schema>
 
-export default function ChatForm({ chatRoomId }: Props) {
+export default function ChatForm({ roomId, username }: Props) {
   const fileRef = useRef<HTMLInputElement>(null)
 
   const { register, handleSubmit, watch, resetField } = useForm<ChatForm>({
     resolver: zodResolver(schema),
-    values: { message: '', chatRoomId }
+    values: { message: '', roomId, username }
   })
 
   function openFileDialog() {
@@ -40,6 +43,9 @@ export default function ChatForm({ chatRoomId }: Props) {
   }
 
   function keyDownHandler(e: KeyboardEvent<HTMLTextAreaElement>) {
+    // EDGE CASE: IME composition
+    if (e.keyCode == 229) return
+
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       onSubmit()
@@ -47,14 +53,12 @@ export default function ChatForm({ chatRoomId }: Props) {
   }
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
-    // TODO: send message to server socket
+    socket.emit('message', data)
     resetField('message')
   })
 
   return (
     <form className="bg-white" onSubmit={onSubmit}>
-      <input type="hidden" {...register('chatRoomId')} />
       <textarea
         id="message"
         autoFocus
