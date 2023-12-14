@@ -1,32 +1,34 @@
 import clsx from 'clsx'
 import styles from './styles.module.css'
+import Image from 'next/image'
 
 interface Props {
   className?: string
+  height: number
+  width: number
   src: string
 }
 
-export default function ProfileImage({ className, src }: Props) {
+export default function ProfileImage({ src, className, height, width }: Props) {
   return (
-    <div className={clsx(className, styles.profileImage)}>
-      <svg className="h-full w-full" viewBox="0 0 88 88">
+    <div
+      className={clsx(styles.profileImage, className)}
+      style={{ height, width }}
+    >
+      <svg width="0" height="0">
         <defs>
-          <path
-            id="shapeSquircle"
-            d="M44,0 C76.0948147,0 88,11.9051853 88,44 C88,76.0948147 76.0948147,88 44,88 C11.9051853,88 0,76.0948147 0,44 C0,11.9051853 11.9051853,0 44,0 Z"
-          />
-          <clipPath id="clipSquircle">
-            <use xlinkHref="#shapeSquircle" />
+          <clipPath id="squircle" clipPathUnits="objectBoundingBox">
+            <path d="M .5,0 C .1,0 0,.1 0,.5 0,.9 .1,1 .5,1 .9,1 1,.9 1,.5 1,.1 .9,0 .5,0 Z" />
           </clipPath>
         </defs>
-        <image
-          width="100%"
-          height="100%"
-          preserveAspectRatio="xMidYMid slice"
-          clipPath="url(#clipSquircle)"
-          xlinkHref={src}
-        />
       </svg>
+      <Image
+        src={src}
+        alt="Profile Image"
+        height={height}
+        width={width}
+        style={{ clipPath: 'url(#squircle)' }}
+      />
     </div>
   )
 }

@@ -28,7 +28,9 @@ export default function ChatListItem({
       onClick={openChatRoom}
     >
       <ProfileImage
-        className="h-14 flex-none"
+        className="flex-none"
+        height={56}
+        width={56}
         src="https://picsum.photos/id/64/64/64"
       />
       <section className="flex flex-1 flex-col">

@@ -9,7 +9,11 @@ interface Props {
 export default function PartnerChat({ username, message, time }: Props) {
   return (
     <div className="flex gap-2 px-2 py-1">
-      <ProfileImage className="h-12" src="https://picsum.photos/id/64/64/64" />
+      <ProfileImage
+        height={48}
+        width={48}
+        src="https://picsum.photos/id/64/64/64"
+      />
       <div className="flex flex-col gap-1">
         <div>{username}</div>
         {message && (
