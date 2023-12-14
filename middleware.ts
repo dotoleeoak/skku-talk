@@ -4,7 +4,7 @@ import { verify } from '@/libs/jwt'
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('access_token')
   if (!token || !(await verify(token.value))) {
-    return NextResponse.redirect('/login')
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 }
 
