@@ -2,6 +2,19 @@
 
 import prisma from '@/libs/db'
 
+export async function getUser(username: string) {
+  const friend = await prisma.user.findUnique({
+    where: {
+      username
+    },
+    select: {
+      username: true,
+      name: true
+    }
+  })
+  return friend
+}
+
 export async function getUserRealname(username: string) {
   const user = await prisma.user.findUnique({
     where: {
@@ -80,4 +93,38 @@ export async function getChatRoomID(username: string, friend: string) {
   }
 
   return chatRoom.id
+}
+
+export async function isFriend(username: string, friend: string) {
+  const isFriend = await prisma.friend.findFirst({
+    where: {
+      user: {
+        username
+      },
+      friend: {
+        username: friend
+      }
+    }
+  })
+
+  return !!isFriend
+}
+
+export async function addFriend(username: string, friend: string) {
+  await prisma.friend.create({
+    data: {
+      user: {
+        connect: {
+          username
+        }
+      },
+      friend: {
+        connect: {
+          username: friend
+        }
+      }
+    }
+  })
+
+  return true
 }
