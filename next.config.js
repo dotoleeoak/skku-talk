@@ -14,9 +14,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'picsum.photos',
+        hostname: 'skku-chat.s3.ap-northeast-2.amazonaws.com',
         port: '',
-        pathname: '/id/**'
+        pathname: '/**'
       }
     ]
   }

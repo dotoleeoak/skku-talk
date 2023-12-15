@@ -1,6 +1,9 @@
 'use server'
 
 import prisma from '@/libs/db'
+import { s3client } from '@/libs/s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
 
 export async function getChatRoomUsers(chatRoomId: number) {
   const chatRoom = await prisma.chatRoom.findUnique({
@@ -38,6 +41,8 @@ export async function getMessages(chatRoomId: number) {
     select: {
       id: true,
       message: true,
+      fileUrl: true,
+      fileType: true,
       createdAt: true,
       user: {
         select: {
@@ -48,11 +53,13 @@ export async function getMessages(chatRoomId: number) {
     }
   })
 
-  const messagesWithTime = messages.map(({ user, message, createdAt }) => ({
-    name: user.name,
-    username: user.username,
-    message: message,
-    time: createdAt.toLocaleString('ko-KR', {
+  const messagesWithTime = messages.map((m) => ({
+    name: m.user.name,
+    username: m.user.username,
+    message: m.message,
+    fileUrl: m.fileUrl,
+    fileType: m.fileType,
+    time: m.createdAt.toLocaleString('ko-KR', {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true
@@ -60,4 +67,9 @@ export async function getMessages(chatRoomId: number) {
   }))
 
   return messagesWithTime
+}
+
+export async function getPresignedUrl(key: string) {
+  const command = new PutObjectCommand({ Bucket: 'skku-chat', Key: key })
+  return getSignedUrl(s3client, command, { expiresIn: 60 * 60 * 24 })
 }

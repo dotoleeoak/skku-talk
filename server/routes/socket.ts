@@ -46,6 +46,42 @@ const createSocketServer = (server: Server) => {
         })
       })
     })
+
+    socket.on('file', async ({ username, roomId, url, type }) => {
+      const chat = await prisma.chatMessage.create({
+        data: {
+          message: '',
+          fileType: type,
+          fileUrl: url,
+          ChatRoom: {
+            connect: {
+              id: roomId
+            }
+          },
+          user: {
+            connect: {
+              username
+            }
+          }
+        },
+        include: {
+          user: true
+        }
+      })
+
+      io.to(roomId).emit('message', {
+        name: chat.user.name,
+        username,
+        message: '',
+        fileType: type,
+        fileUrl: url,
+        time: chat.createdAt.toLocaleString('ko-KR', {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true
+        })
+      })
+    })
   })
 }
 
