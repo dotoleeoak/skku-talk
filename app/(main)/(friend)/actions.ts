@@ -32,8 +32,7 @@ export async function getFriends(username: string) {
     where: {
       user: {
         username
-      },
-      userId: 1
+      }
     },
     select: {
       id: true,
