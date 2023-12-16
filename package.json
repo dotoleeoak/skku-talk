@@ -4,10 +4,10 @@
     "dev": "concurrently npm:dev:*",
     "dev:frontend": "next dev",
     "dev:backend": "nodemon",
-    "build": "next build && tsc -p server",
+    "build": "rimraf .next server/dist && next build && tsc -p server",
     "start": "concurrently npm:start:*",
     "start:frontend": "next start",
-    "start:backend": "node server/dist",
+    "start:backend": "node server/dist/server",
     "lint": "next lint"
   },
   "dependencies": {
@@ -26,6 +26,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
     "react-use": "^17.4.1",
+    "rimraf": "^5.0.5",
+    "sharp": "^0.33.0",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
     "zod": "^3.22.4"
