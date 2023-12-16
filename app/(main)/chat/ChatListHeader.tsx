@@ -20,7 +20,7 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center justify-between rounded-t-xl bg-white/50 p-6 backdrop-blur">
+    <header className="sticky top-0 z-20 flex w-full items-center justify-between rounded-t-xl bg-white/50 p-6 backdrop-blur">
       <h1 className="text-2xl font-semibold">채팅</h1>
       <div className="flex gap-3">
         <button className="text-2xl text-gray-700 hover:text-gray-700/80 active:text-gray-700/60">
