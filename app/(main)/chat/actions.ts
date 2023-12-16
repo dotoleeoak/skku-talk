@@ -35,7 +35,8 @@ export async function getChatRooms(username: string) {
       ChatMessage: {
         select: {
           message: true,
-          createdAt: true
+          createdAt: true,
+          fileType: true
         },
         orderBy: {
           createdAt: 'desc'

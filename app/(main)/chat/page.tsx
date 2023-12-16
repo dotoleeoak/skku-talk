@@ -22,6 +22,10 @@ export default async function Chat() {
         ChatMessage.length > 0
           ? ChatMessage[ChatMessage.length - 1].message
           : '',
+      lastFileType:
+        ChatMessage.length > 0
+          ? ChatMessage[ChatMessage.length - 1].fileType
+          : null,
       lastTime:
         ChatMessage.length > 0
           ? ChatMessage[ChatMessage.length - 1].createdAt
@@ -33,19 +37,22 @@ export default async function Chat() {
     <>
       <ChatListHeader />
       <ul>
-        {chatRoomList.map(({ id, name, lastMessage, lastTime }) => (
-          <ChatListItem
-            key={id}
-            id={id}
-            name={name}
-            lastMessage={lastMessage}
-            lastTime={lastTime?.toLocaleTimeString('ko-KR', {
-              hour: 'numeric',
-              minute: 'numeric',
-              hour12: true
-            })}
-          />
-        ))}
+        {chatRoomList.map(
+          ({ id, name, lastMessage, lastFileType, lastTime }) => (
+            <ChatListItem
+              key={id}
+              id={id}
+              name={name}
+              lastMessage={lastMessage}
+              lastFileType={lastFileType}
+              lastTime={lastTime?.toLocaleTimeString('ko-KR', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+              })}
+            />
+          )
+        )}
       </ul>
     </>
   )

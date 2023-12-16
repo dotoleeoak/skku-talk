@@ -7,6 +7,7 @@ interface Props {
   id: number
   name: string
   lastMessage: string
+  lastFileType: string | null
   lastTime?: string
 }
 
@@ -14,6 +15,7 @@ export default function ChatListItem({
   id,
   name,
   lastMessage,
+  lastFileType,
   lastTime
 }: Props) {
   const router = useRouter()
@@ -30,7 +32,15 @@ export default function ChatListItem({
       <ProfileImage className="flex-none" height={56} width={56} />
       <section className="flex flex-1 flex-col">
         <p className="text-lg font-medium">{name}</p>
-        <p className="line-clamp-2 text-sm text-gray-500">{lastMessage}</p>
+        {lastFileType ? (
+          <p className="text-sm text-gray-500">
+            {lastFileType === 'image'
+              ? '사진을 보냈습니다.'
+              : '동영상을 보냈습니다.'}
+          </p>
+        ) : (
+          <p className="line-clamp-2 text-sm text-gray-500">{lastMessage}</p>
+        )}
       </section>
       {lastTime && (
         <div className="absolute right-4 top-4 text-xs text-gray-500">
