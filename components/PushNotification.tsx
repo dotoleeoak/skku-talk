@@ -9,6 +9,7 @@ interface Message {
   name: string
   username: string
   message: string
+  roomId: number
   fileUrl: string | null
   fileType: string | null
   time: string
@@ -26,30 +27,36 @@ export default function PushNotification({ chatList, username }: Props) {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
   const nodeRef = useRef(null)
 
+  const listener = (message: Message) => {
+    if (message.username === username) return
+    if (chatList.every(({ id }) => id !== message.roomId)) return
+    timeoutId && clearTimeout(timeoutId)
+    setShow(true)
+    setName(message.name)
+    if (message.message == '') {
+      message.fileType === 'image'
+        ? setMessage('사진을 보냈습니다.')
+        : setMessage('동영상을 보냈습니다.')
+    } else {
+      setMessage(message.message)
+    }
+    const id = setTimeout(() => {
+      setShow(false)
+    }, 3000)
+    setTimeoutId(id)
+  }
+
   useEffect(() => {
+    console.log(chatList)
+    socket.on('message', listener)
     chatList.forEach((chat) => {
       socket.emit('join', { roomId: chat.id })
     })
-    socket.on('message', (message: Message) => {
-      if (message.username === username) return
-      timeoutId && clearTimeout(timeoutId)
-      setShow(true)
-      setName(message.name)
-      if (message.message == '') {
-        message.fileType === 'image'
-          ? setMessage('사진을 보냈습니다.')
-          : setMessage('동영상을 보냈습니다.')
-      } else {
-        setMessage(message.message)
-      }
-      const id = setTimeout(() => {
-        setShow(false)
-      }, 3000)
-      setTimeoutId(id)
-    })
     return () => {
-      socket.off('message')
-      timeoutId && clearTimeout(timeoutId)
+      socket.off('message', listener)
+      chatList.forEach((chat) => {
+        socket.emit('leave', { roomId: chat.id })
+      })
     }
   })
 

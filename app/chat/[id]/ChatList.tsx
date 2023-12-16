@@ -42,15 +42,18 @@ export default function ChatList({ roomId, username }: Props) {
     setShowImagePreview(false)
   }
 
+  const listener = (newMessage: Message) => {
+    setMessages((messages) => [...messages, newMessage])
+  }
+
   useEffect(() => {
     getMessages(roomId).then((data) => setMessages(data))
     socket.emit('join', { roomId })
-    socket.on('message', (newMessage: Message) => {
-      setMessages((messages) => [...messages, newMessage])
-    })
+    socket.on('message', listener)
 
     return () => {
-      socket.off('message')
+      socket.emit('leave', { roomId })
+      socket.off('message', listener)
     }
   }, [roomId])
 

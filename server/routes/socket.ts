@@ -39,6 +39,7 @@ const createSocketServer = (server: Server) => {
         name: chat.user.name,
         username,
         message,
+        roomId,
         time: chat.createdAt.toLocaleString('ko-KR', {
           hour: 'numeric',
           minute: 'numeric',

@@ -4,6 +4,8 @@ import GoBackButton from './GoBackButton'
 import { getChatRoomUsers } from './actions'
 import { cookies } from 'next/headers'
 import { verify } from '@/libs/jwt'
+import prisma from '@/libs/db'
+import PushNotification from '@/components/PushNotification'
 
 interface Props {
   params: {
@@ -22,8 +24,27 @@ export default async function Chat({ params }: Props) {
   const username = payload.username as string
   const users = await getChatRoomUsers(+params.id)
 
+  const chatList = await prisma.chatRoom.findMany({
+    where: {
+      ChatRoomUsers: {
+        some: {
+          user: {
+            username
+          }
+        }
+      },
+      NOT: {
+        id: +params.id
+      }
+    },
+    select: {
+      id: true
+    }
+  })
+
   return (
-    <main className="mx-auto h-full w-[28rem] overflow-y-scroll rounded-xl border bg-[#becede]">
+    <main className="relative mx-auto h-full w-[28rem] overflow-y-scroll rounded-xl border bg-[#becede]">
+      <PushNotification chatList={chatList} username={username} />
       <header className="flex h-16 items-center gap-4 p-4">
         <GoBackButton />
         <div className="text-lg">
