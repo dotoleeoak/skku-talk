@@ -16,6 +16,7 @@ interface Message {
   name: string
   username: string
   message: string
+  roomId?: number
   fileUrl: string | null
   fileType: string | null
   time: string
@@ -43,6 +44,7 @@ export default function ChatList({ roomId, username }: Props) {
   }
 
   const listener = (newMessage: Message) => {
+    if (newMessage.roomId !== roomId) return
     setMessages((messages) => [...messages, newMessage])
   }
 

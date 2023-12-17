@@ -47,7 +47,6 @@ export default function PushNotification({ chatList, username }: Props) {
   }
 
   useEffect(() => {
-    console.log(chatList)
     socket.on('message', listener)
     chatList.forEach((chat) => {
       socket.emit('join', { roomId: chat.id })
